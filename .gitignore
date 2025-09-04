@@ -1,0 +1,47 @@
+# Byte-code files
+*.pyc
+__pycache__/
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environment
+.venv/
+venv/
+env/
+/orders-microservice/Pipfile.lock # If you manage dependencies per service, lock files might be committed or ignored based on strategy. For now, ignoring.
+/orders-microservice/Pipfile # If you manage dependencies per service, lock files might be committed or ignored based on strategy. For now, ignoring.
+
+# IDE-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+
+# Environment variables
+.env
+.flaskenv
+
+# Test/coverage reports
+.coverage
+.pytest_cache/
+htmlcov/
+
+# OpenAPI generated files (if any are generated locally and not meant for repo)
+# For example, if oas.yaml generates a client, you might ignore that client directory.
+# kitchen-microservice/oas.yaml # Keep this if it's the source of truth
+# orders-microservice/oas.yaml # Keep this if it's the source of truth
+
+# Flask-Smorest/FastAPI specific build/cache
+# Add any specific cache directories created by Flask-Smorest or FastAPI if they are not meant to be tracked.
