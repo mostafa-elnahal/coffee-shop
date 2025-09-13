@@ -250,6 +250,7 @@ htmlcov/
 # For example, if oas.yaml generates a client, you might ignore that client directory.
 # kitchen-microservice/oas.yaml # Keep this if it's the source of truth
 # orders-microservice/oas.yaml # Keep this if it's the source of truth
-
+.roo/
+.roomodes
 # Flask-Smorest/FastAPI specific build/cache
 # Add any specific cache directories created by Flask-Smorest or FastAPI if they are not meant to be tracked.
