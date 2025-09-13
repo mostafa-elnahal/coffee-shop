@@ -7,8 +7,8 @@ from typing import Optional
 from starlette import status
 from starlette.responses import Response
 
-from orders.app import app
-from orders.api.schemas import (
+from orders.web.app import app
+from orders.web.api.schemas import (
     GetOrderSchema,
     CreateOrderSchema,
     GetOrdersSchema,
