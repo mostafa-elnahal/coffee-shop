@@ -11,7 +11,8 @@
 ```python
 @app.post("/orders")
 async def create_order(order: OrderCreate):
-    # Pure business logic - no UI concerns
+    # Implements Client-Server Architecture: Server focuses solely on business logic
+    # without any client-side UI concerns, allowing independent evolution
     return await orders_service.create_order(order)
 ```
 
@@ -23,8 +24,12 @@ async def create_order(order: OrderCreate):
 **FastAPI Implementation**:
 ```python
 @app.get("/orders")
+    """
+    Using dependency injection (e.g., Depends(get_current_user)), user context is extracted from a token (like JWT) sent with each request. No server-side session is required; all context is in the request.
+    """
 async def get_orders(user: User = Depends(get_current_user)):
-    # No server-side state - token contains all needed context
+    # Statelessness: All user context comes from JWT token in request, no server session
+    # Enables horizontal scaling as any server can handle any request
     return await orders_service.get_user_orders(user.id)
 ```
 
@@ -37,6 +42,8 @@ async def get_orders(user: User = Depends(get_current_user)):
 ```python
 @app.get("/orders/{order_id}")
 async def get_order(order_id: UUID, response: Response):
+    # Cacheability: Sets explicit cache headers to allow client/proxy caching
+    # Reduces server load by avoiding repeated processing of identical requests
     response.headers["Cache-Control"] = "public, max-age=300"
     return await orders_service.get_order(order_id)
 ```
@@ -50,7 +57,8 @@ async def get_order(order_id: UUID, response: Response):
 ```python
 @app.get("/orders/{order_id}/status")
 async def get_order_status(order_id: UUID):
-    # Client doesn't know we're calling multiple internal services
+    # Layered System: API layer abstracts multiple internal services (orders and kitchen)
+    # Client sees a single endpoint without knowing about service boundaries
     order = await orders_service.get_order(order_id)
     kitchen_status = await kitchen_service.get_status(order.kitchen_id)
     return {"order_status": order.status, "kitchen_status": kitchen_status}
@@ -78,10 +86,13 @@ async def get_order_status(order_id: UUID):
 ```python
 @app.post("/orders", status_code=status.HTTP_201_CREATED)
 async def create_order(order: OrderCreate):
+    # HTTP Status Codes: Uses 201 (Created) to indicate successful resource creation
     return await orders_service.create_order(order)
 
 @app.delete("/orders/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_order(order_id: UUID):
+    # HTTP Status Codes: Uses 204 (No Content) to indicate successful deletion
+    # without response body, clearly communicating operation result
     await orders_service.delete_order(order_id)
 ```
 
@@ -343,5 +354,3 @@ Cache-Control: public, max-age=300
 6. **Reliability**: Proper error handling and status codes
 7. **Validation**: Schema enforcement prevents invalid data
 8. **Flexibility**: Pagination and filtering handle large datasets
-
-This implementation demonstrates how REST constraints solve real-world API design problems while leveraging FastAPI's features to create a robust, maintainable, and scalable API solution.
