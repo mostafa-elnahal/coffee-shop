@@ -252,5 +252,8 @@ htmlcov/
 # orders-microservice/oas.yaml # Keep this if it's the source of truth
 .roo/
 .roomodes
+
+# ignore npm modules
+node_modules/
 # Flask-Smorest/FastAPI specific build/cache
 # Add any specific cache directories created by Flask-Smorest or FastAPI if they are not meant to be tracked.
